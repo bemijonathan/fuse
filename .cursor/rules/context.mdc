@@ -1,0 +1,258 @@
+---
+alwaysApply: true
+---
+Product Requirements Document (PRD)
+Product Name: Fuse – Interoperable Health Workflow Orchestrator
+Version: August 30, 2025 (Post-Working Session PRD)
+Vision
+Fuse enables healthcare organizations (hospitals, startups, agents) to integrate, automate, and orchestrate complex cross-platform workflows across EHRs, CRMs, and health IT systems using natural language, low-code builders, or embeddable interfaces — all while ensuring HIPAA-grade auditability and observability.
+MVP Scope – Proof of Concept
+Objective:
+Demonstrate a deterministic, multi-step, cross-platform healthcare automation via a workflow builder and MCP architecture.
+Success Criteria:
+5-step deterministic workflow execution
+
+
+Cross-platform: at least 2 simulated clinics (e.g., fertility & antenatal)
+
+
+Real-time audit and observability
+
+
+Human-in-the-loop verification path
+
+
+End-to-end event-driven pipeline via MCP
+Epics Overview
+Epic 1: Natural Language Agent Console
+Persona: Clinician / AI Assistant Developer
+Goal: Let users describe workflows in plain language and have AI generate structured plans.
+
+
+Features:
+
+
+NLP input interface
+
+
+Agent Planner generates Plan JSON
+
+
+Dry Run validation mode (tool & input preview)
+
+
+Plan approval before execution
+
+
+Acceptance Criteria:
+
+
+AI can create at least 3-step plans
+
+
+Plan JSON aligns with MCP tool manifest schema
+
+
+Users can edit before approving
+Epic 2: Visual Workflow Builder
+Persona: Admins / Ops Managers / Developer Advocate
+Goal: Drag-and-drop interface for composing workflows using triggers, tools, and conditions.
+
+
+Features:
+
+
+Node canvas UI (trigger → actions)
+
+
+Connector block (e.g., Slack, Epic, Email, CRM)
+
+
+Conditions, retries, timeouts
+
+
+Embeddable iframe option for clinics
+
+
+Acceptance Criteria:
+
+
+Build & test a 5-step workflow (trigger → action → result)
+
+
+Hospital IT team can embed builder on EHR intranet
+Epic 3: MCP (Modular Connector Protocol) Runtime
+Persona: Platform Architect / Agent Devs / Integrators
+Goal: Enable deterministic tool invocation via manifests, schemas, and hashed secrets.
+
+
+Features:
+
+
+Manifest registry (YAML/JSON)
+
+
+Tool schema definitions (input/output)
+
+
+API key/OAuth/secret store vault
+
+
+Event triggers & audit logs
+
+
+Acceptance Criteria:
+
+
+Add support for at least 3 MCP manifests (e.g., EHR, Slack, Labs)
+
+
+MCP server resolves toolchain with context + input mapping
+Epic 4: Observability & Audit Trail
+Persona: Compliance Officer / Infra Lead / CTO
+Goal: Provide secure, WORM-logged, redacted audit trails with event lineage.
+
+
+Features:
+
+
+workflow.run.* events
+
+
+Shared logs + trace per patient
+
+
+Break-glass & PHI redaction model
+
+
+On-premise / self-hosted cluster deployment support
+
+
+Acceptance Criteria:
+
+
+Can trace any request/response step to the tool and user that triggered it
+
+
+Support hash-verified audit export
+Epic 5: Integration & Partner Ecosystem
+Persona: AI Agent Startup / EHR Vendor / Digital Health App
+Goal: Allow third parties to integrate MCP manifests or workflows via exposed APIs or embeds.
+
+
+Features:
+
+
+Developer Portal + API key issuing
+
+
+Tool manifest uploader with test harness
+
+
+Embed builder into other platforms via iframe + secrets
+
+
+Acceptance Criteria:
+
+
+AI fertility clinic can expose booking tool
+
+
+EHR startup can integrate Fuse workflows via API key + context
+Epic 6: Onboarding & Access Management
+Persona: Admin / Ops Lead / IT Support
+Goal: Simplify self-serve onboarding, role setup, and workflow import
+
+
+Features:
+
+
+Waitlist and org creation form
+
+
+Slack/Email/Google Sign-in
+
+
+Patient/thread import from CSV
+
+
+API vault + permissions config
+
+
+Acceptance Criteria:
+
+
+Org can onboard in < 10 min
+
+
+Connect 2 tools and execute a dry-run workflow within 30 minutes
+Key User Segments
+Segment
+Needs
+Value from Fuse
+Independent clinics
+Automate referral, billing, follow-ups
+Build workflows across EHRs without devs
+Health IT Teams
+Reduce manual coordination
+Central platform for orchestration
+AI Agent Startups
+Extend AI automation
+Use Fuse to connect with 3rd-party services
+Digital Health Apps
+Offer more integrations
+Embed Fuse workflows inside products
+Compliance & Legal
+Ensure audit and privacy
+Get PHI-safe, traceable event logs
+
+User Flows (Core MVP)
+Clinician → NLP Prompt → Plan JSON → Dry Run → Approve → Execute → Timeline Updated
+
+
+Admin → Drag Workflow → Add Triggers → Add Tools → Save → Dry Run → Activate
+
+
+Developer → Upload Tool Manifest → Test Inputs → Approve → Expose Tool
+
+
+Agent → Get Plan → Run via MCP → Log Audit + Timeline
+
+
+Compliance → View Logs → Export WORM Audit → Redacted PHI Trace
+Onboarding Journeys by Persona
+Persona
+Onboarding Flow
+Clinician
+Invite → Slack login → Connect EHR → Prompt Plan → Approve
+Admin
+Invite → Email login → Drag builder → Activate template
+AI Agent Dev
+Register → Upload manifest → Simulate tool → Add API key
+Hospital IT
+SSO login → Embed Fuse → Add cluster secrets & RLS
+Compliance
+Admin invite → View logs → Run audit report
+
+GTM Strategy by Segment
+Segment
+GTM Motion
+Example Tactic
+Independent clinics
+PLG + referral
+Embedded builder with Slack trigger demo
+EHR platforms
+API + biz dev
+Offer Fuse as an orchestration layer SDK
+AI agent startups
+DevRel / hackathons
+Partner integrations, starter templates
+Compliance orgs
+Direct sales
+Feature audit and privacy observability
+Health IT leaders
+Thought leadership
+Show reduced time to build vs Zapier
+
+
+
