@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { nodeTemplates, NodeTemplate, createNodeFromTemplate } from '../data/nodeTemplates';
+import { allNodeTemplates, NodeTemplate, createNodeFromTemplate } from '../data/nodeTemplates';
 import { WorkflowNode } from '../hooks/useWorkflowExecution';
 
 interface NodePaletteProps {
@@ -15,12 +15,13 @@ export default function NodePalette({ onAddNode }: NodePaletteProps) {
         { id: 'trigger', label: 'EHR Systems', icon: '🏥' },
         { id: 'action', label: 'Healthcare Orgs', icon: '🩺' },
         { id: 'condition', label: 'Labs & Pharmacy', icon: '🔬' },
+        { id: 'control', label: 'Control Flow', icon: '⚙️' },
         { id: 'integration', label: 'Insurance', icon: '🛡️' }
     ];
 
     const filteredTemplates = selectedCategory === 'all'
-        ? nodeTemplates
-        : nodeTemplates.filter(template => template.category === selectedCategory);
+        ? allNodeTemplates
+        : allNodeTemplates.filter((template: NodeTemplate) => template.category === selectedCategory);
 
     const handleAddNode = (template: NodeTemplate) => {
         // Calculate position for new node (to the right of existing nodes)
@@ -39,10 +40,11 @@ export default function NodePalette({ onAddNode }: NodePaletteProps) {
             {/* Add Node Button */}
             <div className="absolute top-4 right-4 z-10">
                 <button
+                    type="button"
                     className="btn btn-primary gap-2 shadow-lg"
                     onClick={() => setIsOpen(true)}
                 >
-                    <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                     Add Node
@@ -56,10 +58,11 @@ export default function NodePalette({ onAddNode }: NodePaletteProps) {
                     <div className="flex justify-between items-center p-6 border-b border-base-200">
                         <h2 className="text-xl font-bold">Add New Node</h2>
                         <button
+                            type="button"
                             className="btn btn-sm btn-circle btn-ghost"
                             onClick={() => setIsOpen(false)}
                         >
-                            <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
@@ -70,6 +73,7 @@ export default function NodePalette({ onAddNode }: NodePaletteProps) {
                         <div role="tablist" className="tabs tabs-boxed">
                             {categories.map(category => (
                                 <button
+                                    type="button"
                                     key={category.id}
                                     role="tab"
                                     className={`tab gap-2 ${selectedCategory === category.id ? 'tab-active' : ''}`}
@@ -86,9 +90,10 @@ export default function NodePalette({ onAddNode }: NodePaletteProps) {
                     <div className="flex-1 overflow-y-auto p-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             {filteredTemplates.map(template => (
-                                <div
+                                <button
+                                    type="button"
                                     key={template.type}
-                                    className="card bg-base-200 hover:bg-base-300 shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer group"
+                                    className="card bg-base-200 hover:bg-base-300 shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer group w-full text-left"
                                     onClick={() => handleAddNode(template)}
                                 >
                                     <div className="card-body p-4">
@@ -113,7 +118,7 @@ export default function NodePalette({ onAddNode }: NodePaletteProps) {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </button>
                             ))}
                         </div>
 
@@ -136,7 +141,7 @@ export default function NodePalette({ onAddNode }: NodePaletteProps) {
                 </div>
 
                 <form method="dialog" className="modal-backdrop">
-                    <button onClick={() => setIsOpen(false)}>close</button>
+                    <button type="button" onClick={() => setIsOpen(false)}>close</button>
                 </form>
             </dialog>
         </>

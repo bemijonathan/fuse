@@ -12,6 +12,7 @@ export interface WorkflowNode {
         executionStatus?: 'running' | 'completed' | 'error';
         currentStep?: string;
         settings?: Record<string, any>;
+        nodeTemplate?: string;
     };
 }
 

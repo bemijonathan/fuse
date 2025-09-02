@@ -20,13 +20,13 @@ export default function WorkflowNode({ data, isConnectable, onClick }: WorkflowN
     const getCardStyle = () => {
         switch (data.executionStatus) {
             case 'running':
-                return 'card bg-warning/10 shadow-md border border-warning/30 animate-pulse';
+                return 'card bg-gradient-to-br from-warning/15 to-warning/5 shadow-lg border border-warning/40 animate-pulse';
             case 'completed':
-                return 'card bg-success/10 shadow-md border border-success/30';
+                return 'card bg-gradient-to-br from-success/15 to-success/5 shadow-md border border-success/40';
             case 'error':
-                return 'card bg-error/10 shadow-md border border-error/30';
+                return 'card bg-gradient-to-br from-error/15 to-error/5 shadow-md border border-error/40';
             default:
-                return 'card bg-base-100 shadow-sm border border-base-200/60';
+                return 'card bg-gradient-to-br from-base-100 to-base-50 shadow-sm border border-base-200/60 hover:shadow-md';
         }
     };
 
@@ -34,23 +34,24 @@ export default function WorkflowNode({ data, isConnectable, onClick }: WorkflowN
         switch (data.executionStatus) {
             case 'running':
                 return (
-                    <div className="badge badge-sm badge-warning gap-1 font-normal">
+                    <div className="badge badge-xs badge-warning gap-1 font-medium">
                         <span className="loading loading-spinner loading-xs"></span>
                         <span className="text-xs">running</span>
                     </div>
                 );
             case 'completed':
-                return <div className="badge badge-sm badge-success font-normal text-xs">completed</div>;
+                return <div className="badge badge-xs badge-success font-medium text-xs">✓</div>;
             case 'error':
-                return <div className="badge badge-sm badge-error font-normal text-xs">error</div>;
+                return <div className="badge badge-xs badge-error font-medium text-xs">✗</div>;
             default:
-                return <div className="badge badge-sm badge-outline font-normal text-xs">{data.status || 'ready'}</div>;
+                return <div className="badge badge-xs badge-outline font-medium text-xs">{data.status || 'ready'}</div>;
         }
     };
 
     return (
-        <div
-            className={`${getCardStyle()} w-56 cursor-pointer hover:shadow-md hover:border-primary/20 transition-all duration-200`}
+        <button
+            type="button"
+            className={`${getCardStyle()} w-44 cursor-pointer hover:shadow-lg hover:border-primary/30 hover:scale-105 transition-all duration-200 group text-left`}
             onClick={onClick}
         >
             <Handle
@@ -59,31 +60,34 @@ export default function WorkflowNode({ data, isConnectable, onClick }: WorkflowN
                 isConnectable={isConnectable}
                 className="!bg-primary/80 !border-primary/40 !w-2 !h-2"
             />
-            <div className="card-body p-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <div className={`badge badge-sm ${data.type === 'trigger' ? 'badge-success' : 'badge-primary'} font-normal`}>
-                        {data.type || 'action'}
+            <div className="card-body p-2">
+                <div className="flex items-center justify-between mb-1">
+                    <div className={`badge badge-xs ${data.type === 'trigger' ? 'badge-success' : 'badge-primary'} font-medium gap-1`}>
+                        <span className="text-xs">⚡</span>
+                        <span>{data.type || 'action'}</span>
                     </div>
                     {getStatusBadge()}
                 </div>
-                <h3 className="text-sm font-medium leading-tight mb-1">{data.label}</h3>
+                <h3 className="text-xs font-semibold leading-tight mb-1 line-clamp-2">{data.label}</h3>
                 {data.description && (
-                    <p className="text-xs text-base-content/60 leading-relaxed mb-2">{data.description}</p>
+                    <p className="text-xs text-base-content/50 leading-tight line-clamp-2 mb-1">{data.description}</p>
                 )}
                 {data.executionStatus === 'running' && data.currentStep && (
-                    <div className="text-xs text-warning/80 font-normal mb-2 italic">
+                    <div className="text-xs text-warning/70 font-medium mb-1 italic line-clamp-1">
                         {data.currentStep}
                     </div>
                 )}
-                <div className="flex justify-end">
+                <div className="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
-                        className="btn btn-xs btn-ghost opacity-60 hover:opacity-100 transition-opacity"
+                        type="button"
+                        className="btn btn-xs btn-ghost p-1"
                         onClick={(e) => {
                             e.stopPropagation();
                             onClick?.();
                         }}
+                        aria-label="Node settings"
                     >
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
@@ -106,6 +110,6 @@ export default function WorkflowNode({ data, isConnectable, onClick }: WorkflowN
                 isConnectable={isConnectable}
                 className="!bg-primary/80 !border-primary/40 !w-2 !h-2"
             />
-        </div>
+        </button>
     );
 }
